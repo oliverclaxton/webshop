@@ -10,9 +10,21 @@ module.exports = {
       },
       productId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "products",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       orderId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "orders",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       quantity: {
         type: Sequelize.INTEGER,
