@@ -7,7 +7,7 @@ const port = 4000;
 
 app.use(express.json());
 app.use("/users", usersRouter);
-//app.use("/products", productsRouter);
+app.use("/products", productsRouter);
 //app.use("/login", loginRouter);
 
 app.get("/", (req, res) => {
