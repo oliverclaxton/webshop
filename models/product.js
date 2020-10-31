@@ -12,12 +12,13 @@ module.exports = (sequelize, DataTypes) => {
         through: "orderItems",
         foreignKey: "product_id",
       });
+      product.belongsTo(models.category, { foreignKey: "categoryId" });
     }
   }
   product.init(
     {
       name: DataTypes.STRING,
-      category: DataTypes.STRING,
+      categoryId: DataTypes.INTEGER,
       image: DataTypes.STRING,
       description: DataTypes.STRING,
       priceInEuroCents: DataTypes.INTEGER,
