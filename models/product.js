@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         through: "orderItems",
         foreignKey: "product_id",
       });
+      //product.belongsTo(models.categories);
     }
   }
   product.init(
