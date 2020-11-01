@@ -31,6 +31,16 @@ router.post("/", async (req, res, next) => {
       password,
       isAdmin,
     } = req.body;
+    console.log(
+      "request",
+      firstName,
+      lastName,
+      address,
+      email,
+      phone,
+      password,
+      isAdmin
+    );
     if (
       !email ||
       !password ||
@@ -41,28 +51,23 @@ router.post("/", async (req, res, next) => {
       !isAdmin
     ) {
       res.status(400).send("missing parameters");
-    } else {
-      const hashedPassword = bcrypt.hashSync(password, 10);
-      const newUser = await User.create({
-        firstName,
-        lastName,
-        address,
-        phone,
-        email,
-        password: hashedPassword,
-        isAdmin,
-      });
-      res.json(newUser);
+      return;
     }
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      address,
+      phone,
+      email,
+      password: hashedPassword,
+      isAdmin,
+    });
+
+    const { password: p, ...restOfUserInfo } = newUser.dataValues;
+    res.json(restOfUserInfo);
   } catch (e) {
     next(e);
   }
 });
 module.exports = router;
-
-router.post("/login", async (req, res, next) => {
-  try {
-  } catch (e) {
-    next(e);
-  }
-});
