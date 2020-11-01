@@ -6,6 +6,7 @@ module.exports = {
       "users",
       [
         {
+          id: 1,
           firstName: "Oliver",
           lastName: "Claxton",
           address: "123 onetwothree lane",
@@ -17,6 +18,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 2,
           firstName: "Thibaud",
           lastName: "Szymczak",
           address: "1234 onetwothree lane",
@@ -28,6 +30,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 3,
           firstName: "Ol",
           lastName: "Cl",
           address: "12356 onetwothree lane",
@@ -39,6 +42,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 4,
           firstName: "Th",
           lastName: "Sz",
           address: "12333 onetwothree lane",

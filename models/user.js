@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // user.hasOne(models.order);
+      user.hasMany(models.order);
     }
   }
   user.init(

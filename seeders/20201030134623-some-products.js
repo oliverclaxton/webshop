@@ -6,6 +6,7 @@ module.exports = {
       "products",
       [
         {
+          id: 1,
           name: "Brew Dog",
           categoryId: 9,
           image:
@@ -16,6 +17,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 2,
           name: "Corona",
           categoryId: 10,
           image:
@@ -26,6 +28,7 @@ module.exports = {
           updatedAt: new Date(),
         },
         {
+          id: 3,
           name: "Heiniken",
           categoryId: 9,
           image:
