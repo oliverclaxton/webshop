@@ -1,7 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const authMiddleware = require("../auth/middleware");
-const auth = require("../auth/middleware");
 const User = require("../models/").user;
 const Order = require("../models").order;
 const OrderItem = require("../models").orderItem;
@@ -49,16 +48,7 @@ router.post("/", async (req, res, next) => {
       password,
       isAdmin,
     } = req.body;
-    console.log(
-      "request",
-      firstName,
-      lastName,
-      address,
-      email,
-      phone,
-      password,
-      isAdmin
-    );
+
     if (
       !email ||
       !password ||
@@ -91,7 +81,6 @@ router.post("/", async (req, res, next) => {
 
 router.get("/:userId/orders", authMiddleware, async (req, res, next) => {
   try {
-    console.log("got into the endpoint");
     const userId = req.params.userId;
     if (req.user.id != userId) {
       res.status(401).send(`You are not logged in as user ${userId}`);
@@ -117,9 +106,19 @@ router.get(
         return;
       }
       const orderItems = await OrderItem.findAll({
-        include: [{ model: Order, where: { id: orderId } }],
+        include: [
+          {
+            model: Order,
+            where: { id: orderId },
+          },
+        ],
       });
-      res.json(orderItems);
+      const cleanArray = orderItems.map((item) => {
+        const { productId, quantity } = item;
+        console.log(productId, quantity);
+        return { productId, quantity };
+      });
+      res.json(cleanArray);
     } catch (e) {
       console.log(e);
       next(e);
