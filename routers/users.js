@@ -1,8 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const authMiddleware = require("../auth/middleware");
+const auth = require("../auth/middleware");
 const User = require("../models/").user;
 const Order = require("../models").order;
+const OrderItem = require("../models").orderItem;
+const Product = require("../models").product;
 const { Router } = express;
 
 const router = new Router();
@@ -85,14 +88,76 @@ router.post("/", async (req, res, next) => {
     next(e);
   }
 });
-module.exports = router;
 
-router.get("/:userId/orders", async (req, res, next) => {
-  const userId = req.params.userId;
+router.get("/:userId/orders", authMiddleware, async (req, res, next) => {
   try {
+    console.log("got into the endpoint");
+    const userId = req.params.userId;
+    if (req.user.id != userId) {
+      res.status(401).send(`You are not logged in as user ${userId}`);
+      return;
+    }
     const orders = await User.findByPk(userId, { include: [Order] });
     res.json(orders);
+  } catch (e) {
+    console.log(e);
+    next(e);
+  }
+});
+
+router.get(
+  "/:userId/orders/:orderId",
+  authMiddleware,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+      const orderId = req.params.orderId;
+      if (req.user.id != orderId) {
+        res.status(401).send(`You are not logged in as user ${userId}`);
+        return;
+      }
+      const orderItems = await OrderItem.findAll({
+        include: [{ model: Order, where: { id: orderId } }],
+      });
+      res.json(orderItems);
+    } catch (e) {
+      console.log(e);
+      next(e);
+    }
+  }
+);
+
+router.post("/:userId/orders", authMiddleware, async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    const newOrder = await Order.create({
+      userId,
+      status: "new order",
+    });
+    res.status(200).send("new order created");
   } catch (e) {
     next(e);
   }
 });
+
+router.post(
+  "/:userId/orders/:orderId",
+  authMiddleware,
+  async (req, res, next) => {
+    try {
+      const userId = req.params.userId;
+      const orderId = req.params.orderId;
+      const { quantity, productId } = req.body;
+      const newOrderItem = await OrderItem.create({
+        orderId,
+        productId,
+        quantity,
+      });
+      res.status(200).send("Item added to cart");
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+module.exports = router;

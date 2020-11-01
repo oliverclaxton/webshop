@@ -15,7 +15,7 @@ module.exports = {
           key: "id",
         },
         onUpdate: "CASCADE",
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
       },
       orderId: {
         type: Sequelize.INTEGER,
@@ -24,7 +24,7 @@ module.exports = {
           key: "id",
         },
         onUpdate: "CASCADE",
-        onDelete: "SET NULL",
+        onDelete: "CASCADE",
       },
       quantity: {
         type: Sequelize.INTEGER,
