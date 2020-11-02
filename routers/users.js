@@ -96,29 +96,21 @@ router.get("/:userId/orders", authMiddleware, async (req, res, next) => {
 
 router.get(
   "/:userId/orders/:orderId",
-  authMiddleware,
+  //authMiddleware,
   async (req, res, next) => {
+    //console.log("object");
     try {
-      const userId = req.params.userId;
+      // const userId = req.params.userId;
       const orderId = req.params.orderId;
-      if (req.user.id != orderId) {
-        res.status(401).send(`You are not logged in as user ${userId}`);
-        return;
-      }
+      // if (req.user.id != orderId) {
+      //   res.status(401).send(`You are not logged in as user ${userId}`);
+      //   return;
+      // }
       const orderItems = await OrderItem.findAll({
-        include: [
-          {
-            model: Order,
-            where: { id: orderId },
-          },
-        ],
+        where: { orderId },
       });
-      const cleanArray = orderItems.map((item) => {
-        const { productId, quantity } = item;
-        console.log(productId, quantity);
-        return { productId, quantity };
-      });
-      res.json(cleanArray);
+
+      res.json(orderItems);
     } catch (e) {
       console.log(e);
       next(e);
