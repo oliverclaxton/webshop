@@ -3,6 +3,6 @@ export function selectFeedLoading(reduxState) {
 }
 
 export function selectFeedProducts(reduxState) {
-  console.log("i am the state");
+  // console.log("i am the state");
   return reduxState.products;
 }

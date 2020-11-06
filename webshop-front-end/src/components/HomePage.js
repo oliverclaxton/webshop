@@ -3,6 +3,7 @@ import { selectFeedProducts } from "../store/products/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/products/actions";
 import { addToBasket } from "../store/basket/actions";
+import ProductCard from "./ProductCard";
 
 export default function HomePage() {
   const products = useSelector(selectFeedProducts);
@@ -14,20 +15,21 @@ export default function HomePage() {
     dispatch(fetchProducts);
   }, [dispatch]);
 
-  function buttonClickedHandler(id) {
-    dispatch(addToBasket(id));
-  }
-
   return (
     <div>
-      {products.products.map((prod) => (
-        <div>
-          <h2 key={prod.id}>{prod.name}</h2>
-          <button onClick={() => buttonClickedHandler(prod.id)}>
-            Add to basket{" "}
-          </button>
-        </div>
-      ))}
+      {products.products.map((prod) => {
+        console.log("i am prod.image", prod.image);
+        return (
+          <div key={prod.id}>
+            <ProductCard
+              name={prod.name}
+              photo={prod.image}
+              id={prod.id}
+              price={prod.priceInEuroCents}
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

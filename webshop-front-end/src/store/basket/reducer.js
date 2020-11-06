@@ -3,13 +3,10 @@ export const initialState = {
 };
 
 export default function basketSliceReducer(state = initialState, action) {
-  console.log("i am the action", action);
+  //console.log("i am the action", action);
   switch (action.type) {
     case "ADD_TO_BASKET": {
-      //logic for adding item to basket
-      console.log("state:", state);
-      console.log("action.payload:", action.payload);
-      // 1. find out if the product is already in the basket
+      console.log("state.basket:", state.basket);
       if (state.basket.find((cartItem) => cartItem.id === action.payload)) {
         const newBasket = state.basket.map((cartItem) => {
           if (cartItem.id === action.payload) {
@@ -19,6 +16,7 @@ export default function basketSliceReducer(state = initialState, action) {
         });
         return { basket: newBasket };
       }
+
       const newItem = { id: action.payload, quantity: 1 };
       return { basket: [...state.basket, newItem] };
     }
