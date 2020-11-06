@@ -96,16 +96,15 @@ router.get("/:userId/orders", authMiddleware, async (req, res, next) => {
 
 router.get(
   "/:userId/orders/:orderId",
-  //authMiddleware,
+  authMiddleware,
   async (req, res, next) => {
-    //console.log("object");
     try {
-      // const userId = req.params.userId;
+      const userId = req.params.userId;
       const orderId = req.params.orderId;
-      // if (req.user.id != orderId) {
-      //   res.status(401).send(`You are not logged in as user ${userId}`);
-      //   return;
-      // }
+      if (req.user.id != orderId) {
+        res.status(401).send(`You are not logged in as user ${userId}`);
+        return;
+      }
       const orderItems = await OrderItem.findAll({
         where: { orderId },
       });
