@@ -4,7 +4,7 @@ const initialState = {
 };
 
 export default function productFeedSliceReducer(state = initialState, action) {
-  console.log("i got to the reducer");
+  // console.log("i got to the reducer");
   switch (action.type) {
     case "feed/startLoading": {
       return {
@@ -18,8 +18,6 @@ export default function productFeedSliceReducer(state = initialState, action) {
         loading: false,
         products: [...action.payload.data],
       };
-
-      return state;
     }
     default: {
       return state;
